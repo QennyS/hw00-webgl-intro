@@ -86,6 +86,7 @@ function main() {
     renderer.clear();
 
     noise.setTime(currentTime);
+    currentTime++;
 
     if(controls.tesselations != prevTesselations)
     {
@@ -99,7 +100,6 @@ function main() {
       // square,
     ]);
 
-    currentTime++;
 
     stats.end();
 
