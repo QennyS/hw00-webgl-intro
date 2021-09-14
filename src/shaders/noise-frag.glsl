@@ -19,6 +19,7 @@ uniform float u_Time;
 in vec4 fs_Nor;
 in vec4 fs_LightVec;
 in vec4 fs_Col;
+in vec4 fs_Pos;
 
 out vec4 out_Col; // This is the final output color that you will see on your
                   // screen for the pixel that is currently being processed.
@@ -75,9 +76,17 @@ float fbm(vec3 p) {
   return sum / maxSum;
 }
 
+float pattern( vec3 p )
+{
+    vec3 q = vec3(fbm(p));
+    q += 0.03*sin( vec3(0.27, 0.23, 0.11) * u_Time * 0.1); 
+
+    return fbm( p + 2.0*q );
+}
+
 void main()
 {
     vec3 color = vec3(1, 0.5, 0.3);
-    color = mix(color, u_Color.rgb, fbm( fs_Nor.xyz+ fbm( fs_Nor.xyz + fbm( fs_Nor.xyz ) ) ));
+    color = mix(color, u_Color.rgb, pattern(fs_Nor.xyz));
     out_Col = vec4(color.rgb, 1);
 }
